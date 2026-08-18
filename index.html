@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Birthday.exe 🎂</title>
+
+<style>
+
+/* =========================
+   BASIC SETTINGS
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Courier New", monospace;
+    background: #05070d;
+    color: #00ff9d;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Cyber grid */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            rgba(0,255,157,.03) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,255,157,.03) 1px,
+            transparent 1px
+        );
+
+    background-size: 35px 35px;
+
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Scanlines */
+
+body::after {
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,.02),
+            rgba(255,255,255,.02) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    pointer-events: none;
+
+    z-index: 999;
+}
+
+
+/* =========================
+   SCREENS
+========================= */
+
+.screen {
+
+    min-height: 100vh;
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 25px;
+}
+
+.screen.active {
+    display: flex;
+}
+
+
+/* =========================
+   TERMINAL
+========================= */
+
+.terminal {
+
+    width: 100%;
+    max-width: 850px;
+
+    background: rgba(4,10,18,.95);
+
+    border: 1px solid #00ff9d;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 0 30px rgba(0,255,157,.2);
+
+    overflow: hidden;
+}
+
+.terminal-header {
+
+    padding: 12px 18px;
+
+    background: #0b111b;
+
+    border-bottom:
+        1px solid #163329;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.dot {
+
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+}
+
+.red {
+    background: #ff5f56;
+}
+
+.yellow {
+    background: #ffbd2e;
+}
+
+.green {
+    background: #27c93f;
+}
+
+.terminal-title {
+
+    margin-left: 10px;
+
+    color: #8899a6;
+
+    font-size: 13px;
+}
+
+.terminal-body {
+
+    padding: 30px;
+}
+
+
+/* =========================
+   TEXT
+========================= */
+
+.green-text {
+    color: #00ff9d;
+}
+
+.blue-text {
+    color: #00c8ff;
+}
+
+.purple-text {
+    color: #c770ff;
+}
+
+.white-text {
+    color: #e8f1f8;
+}
+
+.warning {
+    color: #ffcc00;
+}
+
+.error {
+    color: #ff4d6d;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    border:
+        1px solid #00ff9d;
+
+    background: transparent;
+
+    color: #00ff9d;
+
+    padding: 12px 20px;
+
+    margin-top: 20px;
+
+    border-radius: 6px;
+
+    transition: .3s;
+}
+
+button:hover {
+
+    background: #00ff9d;
+
+    color: #05070d;
+
+    box-shadow:
+        0 0 20px rgba(0,255,157,.5);
+}
+
+
+/* =========================
+   PASSWORD
+========================= */
+
+input {
+
+    width: 100%;
+
+    max-width: 350px;
+
+    background: #020509;
+
+    border:
+        1px solid #00ff9d;
+
+    color: #00ff9d;
+
+    padding: 13px;
+
+    border-radius: 6px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    margin-top: 15px;
+}
+
+.password-box {
+
+    text-align: center;
+}
+
+.password-box h1 {
+
+    font-size:
+        clamp(30px,7vw,60px);
+
+    margin-bottom: 15px;
+
+    text-shadow:
+        0 0 15px #00ff9d;
+}
+
+
+/* =========================
+   MAIN DASHBOARD
+========================= */
+
+.dashboard {
+
+    width: 100%;
+
+    max-width: 1000px;
+}
+
+.hero {
+
+    text-align: center;
+
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+
+    font-size:
+        clamp(35px,8vw,75px);
+
+    color: #00ff9d;
+
+    text-shadow:
+        0 0 25px rgba(0,255,157,.6);
+}
+
+.hero p {
+
+    color: #8da5b5;
+
+    margin-top: 10px;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(250px,1fr)
+        );
+
+    gap: 20px;
+}
+
+.card {
+
+    background:
+        rgba(7,15,25,.9);
+
+    border:
+        1px solid #173c32;
+
+    border-radius: 12px;
+
+    padding: 25px;
+
+    transition: .3s;
+}
+
+.card:hover {
+
+    border-color:
+        #00ff9d;
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 0 25px
+        rgba(0,255,157,.15);
+}
+
+.card h2 {
+
+    color: #00c8ff;
+
+    margin-bottom: 15px;
+}
+
+.card p {
+
+    color: #b8c7d1;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   MUSIC
+========================= */
+
+.music-player {
+
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+.music-status {
+
+    color: #8da5b5;
+
+    font-size: 13px;
+
+    margin-top: 10px;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.stat {
+
+    text-align: center;
+
+    border:
+        1px solid #173c32;
+
+    padding: 15px;
+
+    border-radius: 8px;
+}
+
+.stat strong {
+
+    display: block;
+
+    font-size: 25px;
+
+    color: #00ff9d;
+}
+
+
+/* =========================
+   PHOTO GALLERY
+========================= */
+
+.gallery {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 10px;
+}
+
+.gallery img {
+
+    width: 100%;
+
+    height: 180px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    border:
+        1px solid #173c32;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.gallery img:hover {
+
+    transform:
+        scale(1.03);
+
+    border-color:
+        #00ff9d;
+}
+
+
+/* =========================
+   GIFT
+========================= */
+
+.gift {
+
+    font-size: 90px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: .5s;
+}
+
+.gift:hover {
+
+    transform:
+        scale(1.15)
+        rotate(5deg);
+}
+
+.secret {
+
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    border:
+        1px dashed #00ff9d;
+
+    color: #fff;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   FINAL SCREEN
+========================= */
+
+.final {
+
+    text-align: center;
+}
+
+.final h1 {
+
+    font-size:
+        clamp(40px,10vw,90px);
+
+    color: #00ff9d;
+
+    text-shadow:
+        0 0 10px #00ff9d,
+        0 0 30px #00ff9d;
+}
+
+.final h2 {
+
+    color: #c770ff;
+
+    margin:
+        20px 0;
+}
+
+.final p {
+
+    color: #dce7ee;
+
+    line-height: 1.8;
+
+    max-width: 650px;
+
+    margin: auto;
+}
+
+
+/* =========================
+   IMAGE MODAL
+========================= */
+
+.modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,.9);
+
+    display: none;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 1000;
+
+    padding: 20px;
+}
+
+.modal img {
+
+    max-width: 95%;
+
+    max-height: 85vh;
+
+    border:
+        2px solid #00ff9d;
+
+    border-radius: 10px;
+}
+
+
+/* =========================
+   CONFETTI
+========================= */
+
+.confetti {
+
+    position: fixed;
+
+    width: 8px;
+
+    height: 14px;
+
+    top: -20px;
+
+    z-index: 2000;
+
+    animation:
+        fall linear forwards;
+}
+
+@keyframes fall {
+
+    to {
+
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+    }
+}
+
+
+/* =========================
+   BLINK
+========================= */
+
+.cursor {
+
+    animation:
+        blink 1s infinite;
+}
+
+@keyframes blink {
+
+    50% {
+        opacity: 0;
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width:600px) {
+
+    .terminal-body {
+        padding: 20px;
+    }
+
+    .gallery {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .gallery img {
+        height: 130px;
+    }
+
+    .stats {
+        grid-template-columns:
+            1fr;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =================================================
+     BIRTHDAY MUSIC
+================================================= -->
+
+<audio id="birthdayMusic" loop>
+
+    <source
+        src="birthday-song.mp3"
+        type="audio/mpeg">
+
+</audio>
+
+
+
+<!-- =================================================
+     SCREEN 1
+================================================= -->
+
+<section
+    id="bootScreen"
+    class="screen active"
+>
+
+<div class="terminal">
+
+<div class="terminal-header">
+
+<span class="dot red"></span>
+
+<span class="dot yellow"></span>
+
+<span class="dot green"></span>
+
+<span class="terminal-title">
+birthday_terminal.exe
+</span>
+
+</div>
+
+
+<div class="terminal-body">
+
+<p>
+&gt; booting Birthday Protocol...
+</p>
+
+<br>
+
+<p class="green-text">
+[OK] System initialized
+</p>
+
+<p class="green-text">
+[OK] Birthday database loaded
+</p>
+
+<p class="green-text">
+[OK] Happiness module activated
+</p>
+
+<p class="blue-text">
+[INFO] Searching for birthday legend...
+</p>
+
+<br>
+
+<p id="typing"></p>
+
+<br>
+
+<button
+    onclick="startBirthday()"
+>
+&gt; CONTINUE_
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =================================================
+     SCREEN 2 - PASSWORD
+================================================= -->
+
+<section
+    id="passwordScreen"
+    class="screen"
+>
+
+<div class="terminal">
+
+<div class="terminal-header">
+
+<span class="dot red"></span>
+
+<span class="dot yellow"></span>
+
+<span class="dot green"></span>
+
+<span class="terminal-title">
+secure_access.exe
+</span>
+
+</div>
+
+
+<div class="terminal-body password-box">
+
+<h1>🔐</h1>
+
+<h2>
+SECURE ACCESS
+</h2>
+
+<br>
+
+<p class="white-text">
+This birthday system is protected.
+</p>
+
+<br>
+
+<p class="warning">
+Enter the secret code.
+</p>
+
+<input
+    type="password"
+    id="password"
+    placeholder="Enter access code..."
+>
+
+<br>
+
+<button
+    onclick="checkPassword()"
+>
+AUTHENTICATE
+</button>
+
+<p id="passwordMessage"></p>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =================================================
+     SCREEN 3 - MAIN WEBSITE
+================================================= -->
+
+<section
+    id="mainScreen"
+    class="screen"
+>
+
+<div class="dashboard">
+
+
+<!-- HERO -->
+
+<div class="hero">
+
+<p class="green-text">
+&gt; USER AUTHENTICATED
+</p>
+
+<h1>
+HAPPY BIRTHDAY 🎂
+</h1>
+
+<p>
+Welcome to your personal Birthday.exe
+</p>
+
+</div>
+
+
+
+<!-- MUSIC -->
+
+<div class="music-player">
+
+<button
+    onclick="toggleMusic()"
+    id="musicButton"
+>
+🔊 MUSIC ON
+</button>
+
+<p
+    class="music-status"
+>
+🎵 Birthday soundtrack playing...
+</p>
+
+</div>
+
+
+
+<div class="grid">
+
+
+<!-- =================================================
+     MESSAGE
+================================================= -->
+
+<div class="card">
+
+<h2>
+💬 MESSAGE.exe
+</h2>
+
+<p>
+Hey
+<strong class="green-text">
+Birthday Legend
+</strong>
+! 🎉
+</p>
+
+<br>
+
+<p>
+
+Today isn't just another day.
+
+It's the day the world got
+a little more interesting
+because you were born.
+
+</p>
+
+<br>
+
+<p>
+
+May your next chapter be filled
+with adventures, success,
+happiness and unforgettable memories.
+
+</p>
+
+</div>
+
+
+
+<!-- =================================================
+     STATS
+================================================= -->
+
+<div class="card">
+
+<h2>
+📊 USER_STATS
+</h2>
+
+<div class="stats">
+
+<div class="stat">
+
+<strong>
+100%
+</strong>
+
+Legend
+
+</div>
+
+
+<div class="stat">
+
+<strong>
+∞
+</strong>
+
+Potential
+
+</div>
+
+
+<div class="stat">
+
+<strong>
++1
+</strong>
+
+Level Up
+
+</div>
+
+</div>
+
+<br>
+
+<p>
+
+Status:
+
+<span class="green-text">
+ONLINE & LEGENDARY
+</span>
+
+</p>
+
+</div>
+
+
+
+<!-- =================================================
+     PHOTOS
+================================================= -->
+
+<div class="card">
+
+<h2>
+📸 MEMORY_DATABASE
+</h2>
+
+<br>
+
+<div class="gallery">
+
+
+<!-- YOUR FIRST PHOTO -->
+
+<img
+    src="photo1.jpg"
+    onclick="openImage(this.src)"
+>
+
+
+<!-- YOUR SECOND PHOTO -->
+
+<img
+    src="photo2.jpg"
+    onclick="openImage(this.src)"
+>
+
+
+<!-- YOUR THIRD PHOTO -->
+
+<img
+    src="photo3.jpg"
+    onclick="openImage(this.src)"
+>
+
+
+</div>
+
+<br>
+
+<p>
+&gt; Click a memory to enlarge.
+</p>
+
+</div>
+
+
+
+<!-- =================================================
+     GIFT
+================================================= -->
+
+<div class="card">
+
+<h2>
+🎁 SECRET_GIFT.exe
+</h2>
+
+<p>
+
+A classified birthday package
+has been detected.
+
+</p>
+
+
+<div
+    class="gift"
+    onclick="openGift()"
+>
+🎁
+</div>
+
+
+<p
+    style="text-align:center"
+>
+&gt; Click the gift
+</p>
+
+
+<div
+    id="secretMessage"
+    class="secret"
+>
+
+🎉 ACCESS GRANTED 🎉
+
+<br><br>
+
+You found the secret message!
+
+<br><br>
+
+No matter where life takes you,
+
+I hope you always remember
+that you are someone worth celebrating.
+
+<br><br>
+
+Keep being amazing. ❤️
+
+</div>
+
+</div>
+
+
+
+<!-- =================================================
+     FINAL BUTTON
+================================================= -->
+
+<div
+    class="card"
+    style="text-align:center"
+>
+
+<h2>
+🚀 FINAL_PROTOCOL
+</h2>
+
+<p>
+
+Ready to execute the
+final birthday sequence?
+
+</p>
+
+<button
+    onclick="finalBirthday()"
+>
+
+EXECUTE BIRTHDAY.exe
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =================================================
+     FINAL SCREEN
+================================================= -->
+
+<section
+    id="finalScreen"
+    class="screen"
+>
+
+<div class="terminal">
+
+<div class="terminal-header">
+
+<span class="dot red"></span>
+
+<span class="dot yellow"></span>
+
+<span class="dot green"></span>
+
+<span class="terminal-title">
+birthday_complete.exe
+</span>
+
+</div>
+
+
+<div class="terminal-body final">
+
+<p class="green-text">
+
+&gt; EXECUTING FINAL PROTOCOL...
+
+</p>
+
+<br>
+
+
+<h1>
+
+🎉 HAPPY
+<br>
+BIRTHDAY! 🎂
+
+</h1>
+
+
+<h2>
+
+LEVEL UP COMPLETE 🚀
+
+</h2>
+
+
+<p>
+
+Another year unlocked.
+
+<br><br>
+
+Another chapter begins.
+
+<br><br>
+
+Another collection of memories
+waiting to be created.
+
+<br><br>
+
+May this year bring you
+success, happiness,
+crazy adventures,
+and everything you've been wishing for.
+
+<br><br>
+
+<strong class="green-text">
+
+Keep coding.
+Keep dreaming.
+Keep being you. ❤️
+
+</strong>
+
+</p>
+
+
+<button
+    onclick="location.reload()"
+>
+
+REBOOT SYSTEM
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =================================================
+     IMAGE POPUP
+================================================= -->
+
+<div
+    id="imageModal"
+    class="modal"
+    onclick="closeImage()"
+>
+
+<img
+    id="modalImage"
+>
+
+</div>
+
+
+
+<!-- =================================================
+     JAVASCRIPT
+================================================= -->
+
+<script>
+
+
+/* =========================================
+   PERSONAL SETTINGS
+========================================= */
+
+
+/* Change this name */
+
+const birthdayName =
+"Birthday Legend";
+
+
+/* PASSWORD */
+
+const secretPassword =
+"2005";
+
+
+/* =========================================
+   TYPING ANIMATION
+========================================= */
+
+const text =
+"Scanning... Birthday subject identified: "
++
+birthdayName
++
+" ❤️";
+
+let index = 0;
+
+
+function typeText() {
+
+    if (index < text.length) {
+
+        document.getElementById("typing")
+        .innerHTML +=
+        text.charAt(index);
+
+        index++;
+
+        setTimeout(
+            typeText,
+            50
+        );
+
+    }
+
+}
+
+typeText();
+
+
+
+/* =========================================
+   START BIRTHDAY
+========================================= */
+
+function startBirthday() {
+
+    const music =
+        document.getElementById(
+            "birthdayMusic"
+        );
+
+
+    /*
+       Volume from 0.0 to 1.0
+
+       0.5 = 50%
+    */
+
+    music.volume = 0.5;
+
+
+    /*
+       Start music
+    */
+
+    music.play()
+    .catch(function(error) {
+
+        console.log(
+            "Music waiting for user interaction."
+        );
+
+    });
+
+
+    showScreen(
+        "passwordScreen"
+    );
+
+}
+
+
+
+/* =========================================
+   SCREEN NAVIGATION
+========================================= */
+
+function showScreen(id) {
+
+    document
+    .querySelectorAll(".screen")
+    .forEach(
+        screen => {
+
+            screen.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    document
+    .getElementById(id)
+    .classList.add(
+        "active"
+    );
+
+}
+
+
+
+/* =========================================
+   PASSWORD
+========================================= */
+
+function checkPassword() {
+
+    const password =
+        document.getElementById(
+            "password"
+        ).value;
+
+
+    const message =
+        document.getElementById(
+            "passwordMessage"
+        );
+
+
+    if (
+        password === secretPassword
+    ) {
+
+        message.innerHTML =
+
+        "<br>" +
+
+        "<span class='green-text'>" +
+
+        "ACCESS GRANTED ✓" +
+
+        "</span>";
+
+
+        setTimeout(
+            function() {
+
+                showScreen(
+                    "mainScreen"
+                );
+
+            },
+            900
+        );
+
+
+    } else {
+
+        message.innerHTML =
+
+        "<br>" +
+
+        "<span class='error'>" +
+
+        "ACCESS DENIED ✗" +
+
+        "<br>" +
+
+        "Incorrect access code."
+
+        +
+
+        "</span>";
+
+    }
+
+}
+
+
+
+/* =========================================
+   ENTER KEY FOR PASSWORD
+========================================= */
+
+document
+.getElementById("password")
+.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            checkPassword();
+
+        }
+
+    }
+);
+
+
+
+/* =========================================
+   MUSIC CONTROL
+========================================= */
+
+function toggleMusic() {
+
+    const music =
+        document.getElementById(
+            "birthdayMusic"
+        );
+
+
+    const button =
+        document.getElementById(
+            "musicButton"
+        );
+
+
+    if (
+        music.paused
+    ) {
+
+        music.play();
+
+        button.innerHTML =
+            "🔊 MUSIC ON";
+
+
+    } else {
+
+        music.pause();
+
+        button.innerHTML =
+            "🔇 MUSIC OFF";
+
+    }
+
+}
+
+
+
+/* =========================================
+   IMAGE GALLERY
+========================================= */
+
+function openImage(src) {
+
+    document.getElementById(
+        "modalImage"
+    ).src = src;
+
+
+    document.getElementById(
+        "imageModal"
+    ).style.display =
+        "flex";
+
+}
+
+
+function closeImage() {
+
+    document.getElementById(
+        "imageModal"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/* =========================================
+   GIFT
+========================================= */
+
+function openGift() {
+
+    const message =
+        document.getElementById(
+            "secretMessage"
+        );
+
+
+    message.style.display =
+        "block";
+
+
+    createConfetti(
+        80
+    );
+
+}
+
+
+
+/* =========================================
+   FINAL BIRTHDAY
+========================================= */
+
+function finalBirthday() {
+
+    showScreen(
+        "finalScreen"
+    );
+
+
+    createConfetti(
+        180
+    );
+
+}
+
+
+
+/* =========================================
+   CONFETTI
+========================================= */
+
+function createConfetti(amount) {
+
+    for (
+        let i = 0;
+        i < amount;
+        i++
+    ) {
+
+        const confetti =
+            document.createElement(
+                "div"
+            );
+
+
+        confetti.classList.add(
+            "confetti"
+        );
+
+
+        confetti.style.left =
+            Math.random() *
+            100 +
+            "vw";
+
+
+        confetti.style.animationDuration =
+            (
+                Math.random() * 3
+                + 2
+            )
+            + "s";
+
+
+        confetti.style.transform =
+            "rotate(" +
+            Math.random() *
+            360 +
+            "deg)";
+
+
+        confetti.style.background =
+            randomColor();
+
+
+        document.body.appendChild(
+            confetti
+        );
+
+
+        setTimeout(
+            function() {
+
+                confetti.remove();
+
+            },
+            6000
+        );
+
+    }
+
+}
+
+
+
+/* =========================================
+   RANDOM CONFETTI COLORS
+========================================= */
+
+function randomColor() {
+
+    const colors = [
+
+        "#00ff9d",
+
+        "#00c8ff",
+
+        "#c770ff",
+
+        "#ff4d6d",
+
+        "#ffcc00",
+
+        "#ffffff"
+
+    ];
+
+
+    return colors[
+        Math.floor(
+            Math.random() *
+            colors.length
+        )
+    ];
+
+}
+
+</script>
+
+</body>
+</html>
